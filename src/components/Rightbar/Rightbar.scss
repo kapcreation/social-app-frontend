@@ -1,0 +1,102 @@
+.rightbar {
+  flex: 3;
+  position: sticky;
+  height: calc(100vh - 55px);
+  overflow-y: scroll;
+  background-color: var(--bg-color-soft);
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media screen and (max-width: 960px) {
+    display: none;
+  }
+  
+  @media screen and (max-width: 480px) {
+    display: none;
+  }
+
+  .container {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+
+    .item {
+      display: flex;
+      flex-direction: column;
+      row-gap: 10px;
+      background-color: var(--bg-color);
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      padding: 15px;
+
+      > span {
+        color: gray;
+      }
+
+      .user {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        
+        .info {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+
+          img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            object-fit: cover;
+            flex-shrink: 0;
+          }
+          .img-container {
+            position: relative;
+          }
+          .online {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: limegreen;
+            position: absolute;
+            top: 0;
+            right: 0;
+          }
+          span {
+            width: 125px;
+            white-space: nowrap; 
+            overflow: hidden;
+            text-overflow: ellipsis; 
+            color: var(--text-color);
+          }
+          p {
+            color: var(--text-color-soft);
+          }
+        }
+        .buttons {
+          display: flex;
+          gap: 7px;
+
+          button {
+            border: none;
+            padding: 5px;
+            color: white;
+            border-radius: 5px;
+
+            &:first-child {
+              background-color: var(--confirm-color);
+            }
+            &:last-child {
+              background-color: var(--cancel-color);
+            }
+          }
+        }
+        > span {
+          color: gray;
+        }
+      }
+    }
+  }
+}

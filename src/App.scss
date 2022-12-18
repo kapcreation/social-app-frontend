@@ -1,0 +1,27 @@
+.app {
+  max-width: 1440px;
+  margin: auto;
+  max-height: 100vh;
+  overflow: hidden;
+
+  --confirm-color: #5271ff;
+  --cancel-color: #f0544f;
+}
+
+.light-theme {
+  --text-color: #000;
+  --bg-color: white;
+  --logo-color: darkblue;
+  --bg-color-soft: #f6f3f3;
+  --text-color-soft: #555;
+  --border-color: lightgray;
+}
+
+.dark-theme {
+  --text-color: whitesmoke;
+  --bg-color: #222;
+  --logo-color: white;
+  --bg-color-soft: #333;
+  --text-color-soft: lightgray;
+  --border-color: #444;
+}

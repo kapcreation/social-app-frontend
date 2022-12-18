@@ -1,0 +1,76 @@
+.stories {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+  height: 150px;
+  margin-bottom: 30px;
+
+  @media screen and (max-width: 480px) {
+    height: min-content;
+  }
+
+  .story {
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+
+    @media screen and (max-width: 480px) {
+      border-radius: 50%;
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0,0,0,0.1);
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+     
+      @media screen and (max-width: 480px) {
+        aspect-ratio: 1;
+      }
+    }
+    span {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 10px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: white;
+
+      @media screen and (max-width: 480px) {
+        display: none;
+      }
+    }
+    button {
+      position: absolute;
+      bottom: 40px;
+      left: 10px;
+      color: white;
+      background-color: #5271ff;
+      border-radius: 50%;
+      border: none;
+      width: 30px;
+      height: 30px;
+      font-size: 1.5rem;
+
+      @media screen and (max-width: 480px) {
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+      }
+    }
+  }
+}

@@ -1,0 +1,19 @@
+.home {
+  position: sticky;
+  height: calc(100vh - 55px);
+  overflow-y: scroll;
+  background-color: var(--bg-color-soft);
+  padding: 20px 50px;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  
+  @media screen and (max-width: 960px) {
+    padding: 20px;
+  }
+
+  @media screen and (max-width: 480px) {
+    padding: 10px;
+  }
+}
