@@ -21,14 +21,10 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    try {
-      await login(inputs)
-
+    login(inputs, (err, data) => {
+      if (err) return setError(err)
       navigate('/')
-    } catch (error) {
-      console.log(error)
-      setError(error.response.data)
-    }
+    })
   }
 
   return (

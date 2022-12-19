@@ -9,8 +9,8 @@ const Rightbar = () => {
           <span>Suggestions for you</span>
           <div className="user">
             <div className="info">
-              <img src="https://images.pexels.com/photos/3228727/pexels-photo-3228727.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="" />
-              <span>Jane Doeaaaaaaaaaaaaaaaaaaaaa</span>
+              <img src="/assets/img/users/4.jpg" alt="" />
+              <span>Saba Holden</span>
             </div>
             <div className="buttons">
               <button>follow</button>
@@ -19,8 +19,8 @@ const Rightbar = () => {
           </div>
           <div className="user">
             <div className="info">
-              <img src="https://images.pexels.com/photos/3228727/pexels-photo-3228727.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="" />
-              <span>Jane Doe</span>
+              <img src="/assets/img/users/5.jpg" alt="" />
+              <span>Kayla Keith</span>
             </div>
             <div className="buttons">
               <button>follow</button>
@@ -34,9 +34,9 @@ const Rightbar = () => {
 
           <div className="user">
             <div className="info">
-              <img src="https://images.pexels.com/photos/3228727/pexels-photo-3228727.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="" />
+              <img src="/assets/img/users/1.jpg" alt="" />
               <p>
-                <span>Jane Doe</span> changed their cover picture
+                <span>Hussain Petty</span> changed their cover picture
               </p>
             </div>
             <span>1 min ago</span>
@@ -49,83 +49,43 @@ const Rightbar = () => {
           <div className="user">
             <div className="info">
               <div className="img-container">
-                <img src="https://images.pexels.com/photos/3228727/pexels-photo-3228727.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="" />
+                <img src='/assets/img/users/1.jpg' alt="" />
                 <div className="online"></div>
               </div>
-              <span>Jane Doe</span>
+              <span>Hussain Petty</span>
             </div>
           </div>
 
           <div className="user">
             <div className="info">
               <div className="img-container">
-                <img src="https://images.pexels.com/photos/3228727/pexels-photo-3228727.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="" />
+                <img src="/assets/img/users/2.jpg" alt="" />
                 <div className="online"></div>
               </div>
-              <span>Jane Doe</span>
+              <span>Annie Frederick</span>
             </div>
           </div>
 
           <div className="user">
             <div className="info">
               <div className="img-container">
-                <img src="https://images.pexels.com/photos/3228727/pexels-photo-3228727.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="" />
+                <img src="/assets/img/users/3.jpg" alt="" />
                 <div className="online"></div>
               </div>
-              <span>Jane Doe</span>
+              <span>Haaris Pena</span>
             </div>
           </div>
 
           <div className="user">
             <div className="info">
               <div className="img-container">
-                <img src="https://images.pexels.com/photos/3228727/pexels-photo-3228727.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="" />
+                <img src="/assets/img/users/4.jpg" alt="" />
                 <div className="online"></div>
               </div>
-              <span>Jane Doe</span>
+              <span>Noah Clements</span>
             </div>
           </div>
 
-          <div className="user">
-            <div className="info">
-              <div className="img-container">
-                <img src="https://images.pexels.com/photos/3228727/pexels-photo-3228727.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="" />
-                <div className="online"></div>
-              </div>
-              <span>Jane Doe</span>
-            </div>
-          </div>
-
-          <div className="user">
-            <div className="info">
-              <div className="img-container">
-                <img src="https://images.pexels.com/photos/3228727/pexels-photo-3228727.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="" />
-                <div className="online"></div>
-              </div>
-              <span>Jane Doe</span>
-            </div>
-          </div>
-
-          <div className="user">
-            <div className="info">
-              <div className="img-container">
-                <img src="https://images.pexels.com/photos/3228727/pexels-photo-3228727.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="" />
-                <div className="online"></div>
-              </div>
-              <span>Jane Doe</span>
-            </div>
-          </div>
-
-          <div className="user">
-            <div className="info">
-              <div className="img-container">
-                <img src="https://images.pexels.com/photos/3228727/pexels-photo-3228727.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="" />
-                <div className="online"></div>
-              </div>
-              <span>Jane Doe</span>
-            </div>
-          </div>
-          
         </div>
       </div>
     </div>

@@ -8,12 +8,44 @@ export const AuthContextProvider = ({ children }) => {
    JSON.parse(localStorage.getItem('user')) || null
   )
 
-  const login = async (inputs) => {
-    const res = await axios.post('http://localhost:5000/auth/login', inputs, {
-      withCredentials: true
-    })
+  const login = async (inputs, callback) => {
+    try {
+      const res = await axios.post('http://localhost:5000/auth/login', inputs, {
+        withCredentials: true
+      })
+  
+      update(res.data)
+      
+      callback(null, res.data)
+    } catch (error) {
+      console.log(error)
+     
+      callback(error.response.data, null)
+    }
+  }
 
-    setCurrentUser(res.data)
+  const register = async (inputs, callback) => {
+    try {
+      await axios.post('http://localhost:5000/auth/register', inputs, {
+        withCredentials: true
+      })
+
+      login(inputs, (err, data) => {
+        if (err) throw err
+
+        update(data)
+        callback(null, data)
+      })
+  
+    } catch (error) {
+      console.log(error)
+      
+      callback(error.response.data, null)
+    }
+  }
+
+  const update = (updateData) => {
+    setCurrentUser(prev=>({ ...prev, ...updateData }))
   }
 
   useEffect(() => {
@@ -21,7 +53,7 @@ export const AuthContextProvider = ({ children }) => {
   }, [currentUser])
 
   return (
-    <AuthContext.Provider value={{ currentUser, login }}>
+    <AuthContext.Provider value={{ currentUser, login, register }}>
       {children}
     </AuthContext.Provider>
   )

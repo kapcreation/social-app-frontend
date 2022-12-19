@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import './Profile.scss'
 import FacebookTwoToneIcon from "@mui/icons-material/FacebookTwoTone";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
@@ -16,10 +16,12 @@ import Posts from '../../components/Posts/Posts'
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query'
 import { makeRequest } from '../../axios';
 import { AuthContext } from '../../context/authContext';
+import Update from '../../components/Update/Update';
 
 const Profile = () => {
   const { currentUser } = useContext(AuthContext)
   const { userId } = useParams();
+  const [updateIsOpen, setUpdateIsOpen] = useState(false)
 
   const { isLoading, error, data: user } = useQuery(['user'], () => (
     makeRequest.get('/users/' + userId).then((res) => {
@@ -57,7 +59,6 @@ const Profile = () => {
     if(user?.id) mutation.mutate()
   }
 
-
   if (isLoading) return 'Loading...'
 
   return (
@@ -80,14 +81,14 @@ const Profile = () => {
             <div className="links">
               <Link to='/'>
                 <PlaceIcon />
-                {user.city}
+                {user.city || 'No info'}
               </Link>
               <Link to='/'>
                 <LanguageIcon />
-                {user.website}
+                {user.website || 'No info'}
               </Link>
             </div>
-            {userIsCurrentUser ? <button onClick={handleFollow}>{!userIsFollowed ? 'Follow' : 'Following'}</button> : <button>Update</button>}
+            {userIsCurrentUser ? <button onClick={handleFollow}>{!userIsFollowed ? 'Follow' : 'Following'}</button> : <button onClick={()=>setUpdateIsOpen(true)}>Update</button>}
           </div>
           <div className="right">
             <EmailOutlinedIcon />
@@ -97,6 +98,8 @@ const Profile = () => {
 
         <Posts userId={userId} />
       </div>
+
+      {updateIsOpen && <Update onClose={()=>setUpdateIsOpen(false)} />}
     </div>
   )
 }

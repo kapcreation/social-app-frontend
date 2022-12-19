@@ -1,23 +1,17 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './Comments.scss'
 import { AuthContext } from '../../context/authContext'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import moment from 'moment'
 import { makeRequest } from '../../axios'
 
-const Comments = ({ postId }) => {
+const Comments = ({ postId, comments }) => {
 
   const { currentUser } = useContext(AuthContext)
 
   const queryClient = useQueryClient()
 
   const [comment, setComment] = useState('')
-
-  const { isLoading, error, data } = useQuery(['comments'], () => (
-    makeRequest.get('/comments?postId=' + postId).then((res) => {
-      return res.data
-    })
-  ))
 
   const mutation = useMutation(
     (newComment) => {
@@ -52,7 +46,7 @@ const Comments = ({ postId }) => {
           <button>Send</button>
         </form>
       </div>
-      {isLoading ? 'Loading...' : data.map((comment) => (
+      {comments.map((comment) => (
         <div className="comment" key={comment.id}>
           <img src={comment.profilePic} alt="" />
           <div className="text">

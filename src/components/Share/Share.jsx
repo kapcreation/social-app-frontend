@@ -30,7 +30,7 @@ const Share = () => {
     e.preventDefault()
 
     let imgUrl = ''
-    if (file) imgUrl = "./uploads/" + await upload()
+    if (file) imgUrl = "/uploads/" + await upload()
 
     mutation.mutate({ desc, img: imgUrl })
 
@@ -48,13 +48,14 @@ const Share = () => {
       console.log(error)
     }
   }
+  
   return (
     <div className="share">
       <div className="container">
         <form onSubmit={handleSubmit}>
           <div className="top">
             <div className="left">
-              <img src={currentUser.profilePic ? "/upload/" + currentUser.profilePic : avatar} alt="" />
+              <img src={currentUser.profilePic ? currentUser.profilePic : avatar} alt="" />
               <input
                 type="text"
                 placeholder={`What's on your mind ${currentUser.name}?`}

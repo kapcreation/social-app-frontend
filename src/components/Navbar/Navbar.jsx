@@ -7,6 +7,7 @@ import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+import avatar from '../../assets/avatarRounded.png'
 import './Navbar.scss'
 import { Link } from 'react-router-dom';
 import { DarkModeContext } from '../../context/darkModeContext';
@@ -32,10 +33,10 @@ const Navbar = () => {
         <PersonOutlinedIcon />
         <EmailOutlinedIcon />
         <NotificationsOutlinedIcon />
-        <div className='user'>
-          <img src={currentUser.profilePic} alt='' />
+        <Link to={`/profile/${currentUser.id}`} className='user'>
+          <img src={currentUser.profilePic || avatar} alt='' />
           <span>{currentUser.name}</span>
-        </div>
+        </Link>
       </div>
     </div>
   )

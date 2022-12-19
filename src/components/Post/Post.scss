@@ -11,6 +11,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    position: relative;
 
     .user {
       height: 100%;
@@ -40,7 +41,26 @@
     }
     .btn {
       color: var(--text-color);
+      cursor: pointer;
     }
+    .menu {
+      position: absolute;
+      top: 40px;
+      right: 0;
+      background-color: var(--bg-color);
+      padding: 10px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+
+      button {
+        padding: 8px 12px;
+        border-radius: 5px;
+        color: white;
+        background-color: var(--cancel-color);
+        border: none;
+      }
+    }
+
   }
   .body {
     width: 100%;
