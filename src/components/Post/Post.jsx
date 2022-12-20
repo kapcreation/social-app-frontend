@@ -13,6 +13,7 @@ import { makeRequest } from '../../axios';
 import { useContext } from 'react';
 import { AuthContext } from '../../context/authContext';
 import avatar from '../../assets/avatarRounded.png'
+import { deleteUploadedFile } from '../../firebase';
 
 const Post = ({ post, focus, setFocus }) => {
   const { currentUser } = useContext(AuthContext)
@@ -74,6 +75,7 @@ const Post = ({ post, focus, setFocus }) => {
 
   const handleDelete = () => {
     postsMutation.mutate()
+    deleteUploadedFile(post.img)
   }
 
   useEffect(() => {

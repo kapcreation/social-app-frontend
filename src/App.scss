@@ -25,3 +25,9 @@
   --text-color-soft: lightgray;
   --border-color: #444;
 }
+
+
+svg {
+  cursor: pointer;
+  color: var(--text-color);
+}

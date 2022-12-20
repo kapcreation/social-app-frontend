@@ -1,13 +1,12 @@
 import axios from 'axios'
 import React, { useContext, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { AuthContext } from '../../context/authContext'
 import './Login.scss'
 
 const Login = () => {
-  const { login } = useContext(AuthContext)
-  const navigate = useNavigate()
-
+  const { currentUser, login } = useContext(AuthContext)
+ 
   const [inputs, setInputs] = useState({
     username: '',
     password: ''
@@ -18,12 +17,11 @@ const Login = () => {
     setInputs(prev => ({...prev, [e.target.name]: e.target.value }))
   }
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault()
-
+    
     login(inputs, (err, data) => {
-      if (err) return setError(err)
-      navigate('/')
+      if (err) setError(err)
     })
   }
 
@@ -43,8 +41,8 @@ const Login = () => {
         <div className='login-section'>
           <h1>Login</h1>
           <form onSubmit={handleSubmit}>
-            <input type="text" placeholder='Username' name='username' onChange={handleChange} />
-            <input type="password" placeholder='Password' name='password' onChange={handleChange} />
+            <input type="text" placeholder='Username' name='username' onChange={handleChange} required />
+            <input type="password" placeholder='Password' name='password' onChange={handleChange} required />
             {error && <p>{error}</p>}
             <button>Login</button>
           </form>

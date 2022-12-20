@@ -13,8 +13,6 @@ const Posts = ({ userId }) => {
 
   const [focus, setFocus] = useState(null)
 
-  console.log(data)
-
   return (
     <div className='posts'>
       {

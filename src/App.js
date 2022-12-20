@@ -57,11 +57,11 @@ function App() {
     },
     {
       path: '/login',
-      element: <Login />,
+      element: !currentUser ? <Login /> : <Navigate to='/' />,
     },
     {
       path: '/register',
-      element: <Register />,
+      element: !currentUser ? <Register /> : <Navigate to='/' />,
     },
   ])
 

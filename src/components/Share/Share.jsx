@@ -7,6 +7,7 @@ import { AuthContext } from "../../context/authContext";
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { makeRequest } from '../../axios'
 import avatar from '../../assets/avatarRounded.png'
+import { uploadFile } from "../../firebase";
 
 const Share = () => {
   const [file, setFile] = useState(null)
@@ -29,30 +30,18 @@ const Share = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    let imgUrl = ''
-    if (file) imgUrl = "/uploads/" + await upload()
+    const imgUrl = await uploadFile(file)
 
-    mutation.mutate({ desc, img: imgUrl })
+    mutation.mutate({ desc, imgUrl })
 
     setDesc('')
     setFile(null)
-  }
-
-  const upload = async () => {
-    try {
-      const formData = new FormData()
-      formData.append('file', file)
-      const res = await makeRequest.post('/upload', formData)
-      return res.data
-    } catch (error) {
-      console.log(error)
-    }
   }
   
   return (
     <div className="share">
       <div className="container">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} encType="multipart/form-data">
           <div className="top">
             <div className="left">
               <img src={currentUser.profilePic ? currentUser.profilePic : avatar} alt="" />
@@ -75,6 +64,7 @@ const Share = () => {
               <input
                 type="file"
                 id="file"
+                name='image'
                 style={{ display: "none" }}
                 onChange={(e) => setFile(e.target.files[0])}
               />

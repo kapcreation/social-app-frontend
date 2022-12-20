@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import './Register.scss'
-import axios from 'axios'
 import { AuthContext } from '../../context/authContext'
 
 const Register = () => {
@@ -15,7 +14,6 @@ const Register = () => {
   })
 
   const [error, setError] = useState(null)
-  const navigate = useNavigate()
 
   const handleChange = (e) => {
     setInputs(prev => ({...prev, [e.target.name]: e.target.value }))
@@ -25,8 +23,7 @@ const Register = () => {
     e.preventDefault()
 
     register(inputs, (err, data) => {
-      if (err) return setError(err)
-      navigate('/')
+      if (err) setError(err)
     })
   }
 
@@ -46,10 +43,10 @@ const Register = () => {
         <div className='register-section'>
           <h1>Register</h1>
           <form onSubmit={handleSubmit}>
-            <input type="text" placeholder='Username' name='username' onChange={handleChange} />
-            <input type="email" placeholder='Email' name='email' onChange={handleChange} />
-            <input type="password" placeholder='Password' name='password' onChange={handleChange}/>
-            <input type="text" placeholder='Name' name='name' onChange={handleChange} />
+            <input type="text" placeholder='Username' name='username' onChange={handleChange} required />
+            <input type="email" placeholder='Email' name='email' onChange={handleChange} required />
+            <input type="password" placeholder='Password' name='password' onChange={handleChange} required />
+            <input type="text" placeholder='Name' name='name' onChange={handleChange} required />
             {error && <p>{error}</p>}
             <button>Register</button>
           </form>

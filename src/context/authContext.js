@@ -14,7 +14,7 @@ export const AuthContextProvider = ({ children }) => {
         withCredentials: true
       })
   
-      update(res.data)
+      setCurrentUser(res.data)
       
       callback(null, res.data)
     } catch (error) {
@@ -32,8 +32,7 @@ export const AuthContextProvider = ({ children }) => {
 
       login(inputs, (err, data) => {
         if (err) throw err
-
-        update(data)
+        
         callback(null, data)
       })
   
@@ -44,8 +43,16 @@ export const AuthContextProvider = ({ children }) => {
     }
   }
 
-  const update = (updateData) => {
-    setCurrentUser(prev=>({ ...prev, ...updateData }))
+  const logout = async () => {
+    try {
+      await axios.post('http://localhost:5000/auth/logout', {
+        withCredentials: true
+      })
+    } catch (error) {
+      console.log(error)
+    }
+
+    setCurrentUser(null)
   }
 
   useEffect(() => {
@@ -53,7 +60,7 @@ export const AuthContextProvider = ({ children }) => {
   }, [currentUser])
 
   return (
-    <AuthContext.Provider value={{ currentUser, login, register }}>
+    <AuthContext.Provider value={{ currentUser, login, register, logout }}>
       {children}
     </AuthContext.Provider>
   )
