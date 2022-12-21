@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import axios from "axios";
+import { makeRequest } from "../axios";
 
 export const AuthContext = createContext()
 
@@ -10,9 +11,7 @@ export const AuthContextProvider = ({ children }) => {
 
   const login = async (inputs, callback) => {
     try {
-      const res = await axios.post('http://localhost:5000/auth/login', inputs, {
-        withCredentials: true
-      })
+      const res = await makeRequest.post('/auth/login', inputs)
   
       setCurrentUser(res.data)
       
@@ -26,9 +25,7 @@ export const AuthContextProvider = ({ children }) => {
 
   const register = async (inputs, callback) => {
     try {
-      await axios.post('http://localhost:5000/auth/register', inputs, {
-        withCredentials: true
-      })
+      await makeRequest.post('/auth/register', inputs)
 
       login(inputs, (err, data) => {
         if (err) throw err
@@ -43,15 +40,7 @@ export const AuthContextProvider = ({ children }) => {
     }
   }
 
-  const logout = async () => {
-    try {
-      await axios.post('http://localhost:5000/auth/logout', {
-        withCredentials: true
-      })
-    } catch (error) {
-      console.log(error)
-    }
-
+  const logout = () => {
     setCurrentUser(null)
   }
 

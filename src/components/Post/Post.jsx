@@ -26,7 +26,7 @@ const Post = ({ post, focus, setFocus }) => {
     })
   ))
   
-  const { isLoading: commentsIsLoading, error: commentsError, data: commentsData } = useQuery(['comments'], () => (
+  const { isLoading: commentsIsLoading, error: commentsError, data: commentsData } = useQuery(['comments', post.id], () => (
     makeRequest.get('/comments?postId=' + post.id).then((res) => {
       return res.data
     })
@@ -44,7 +44,7 @@ const Post = ({ post, focus, setFocus }) => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['likes'])
+        queryClient.invalidateQueries(['likes', post.id])
       }
     }
   )

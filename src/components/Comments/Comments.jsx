@@ -6,7 +6,7 @@ import moment from 'moment'
 import { makeRequest } from '../../axios'
 
 const Comments = ({ postId, comments }) => {
-
+ 
   const { currentUser } = useContext(AuthContext)
 
   const queryClient = useQueryClient()
@@ -19,7 +19,7 @@ const Comments = ({ postId, comments }) => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['comments'])
+        queryClient.invalidateQueries(['comments', postId])
       }
     }
   )
