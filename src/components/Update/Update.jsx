@@ -6,17 +6,19 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { AuthContext } from '../../context/authContext';
 import coverImg from '../../assets/cover.jpg'
 import avatar from '../../assets/avatar.jpg'
+import { uploadFile, deleteUploadedFile } from '../../firebase';
 
 const Update = ({ onClose }) => {
-  const { currentUser } = useContext(AuthContext)
+  const { currentUser, update } = useContext(AuthContext)
   const [cover, setCover] = useState(null)
   const [profilePic, setProfilePic] = useState(null)
   const initialInputs = {
-    name: currentUser.name,
-    city: currentUser.city,
-    website: currentUser.website
+    name: currentUser.name || '',
+    city: currentUser.city || '',
+    website: currentUser.website || ''
   }
   const [inputs, setInputs] = useState(initialInputs)
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleChange = (e) => {
     setInputs(prev=>({...prev, [e.target.name]: e.target.value}))
@@ -31,7 +33,7 @@ const Update = ({ onClose }) => {
 
   const mutation = useMutation(
     (updateData) => {
-      return makeRequest.put('/users', updateData)
+      return update(updateData)
     },
     {
       onSuccess: () => {
@@ -42,24 +44,18 @@ const Update = ({ onClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setIsLoading(true)
 
-    const coverUrl = cover ? "/uploads/" + await upload(cover) : currentUser.coverPic
-    const profilePicUrl = profilePic ? "/uploads/" + await upload(profilePic) : currentUser.profilePic
+    cover && currentUser?.coverPic && deleteUploadedFile(currentUser.coverPic)
+    profilePic &&  currentUser?.profilePic && deleteUploadedFile(currentUser.profilePic)
+    
+    const coverUrl = cover ? await uploadFile(cover) : currentUser.coverPic
+    const profilePicUrl = profilePic ? await uploadFile(profilePic) : currentUser.profilePic
 
     mutation.mutate({ ...inputs, coverPic: coverUrl, profilePic: profilePicUrl })
     
+    setIsLoading(false)
     handleClose()
-  }
-  
-  const upload = async (file) => {
-    try {
-      const formData = new FormData()
-      formData.append('file', file)
-      const res = await makeRequest.post('/upload', formData)
-      return res.data
-    } catch (error) {
-      console.log(error)
-    }
   }
 
   const clear = () => {
@@ -85,7 +81,7 @@ const Update = ({ onClose }) => {
         <input type="text" name='name' placeholder='Enter name...' onChange={handleChange} value={inputs.name} />
         <input type="text" name='city' placeholder='Enter city...' onChange={handleChange} value={inputs.city} />
         <input type="text" name='website' placeholder='Enter website...' onChange={handleChange} value={inputs.website} />
-        <button>Update</button>
+        <button disabled={isLoading}>{!isLoading ? 'Update' : 'Updating...'}</button>
       </form>
       <button onClick={handleClose}><CloseIcon /></button>
     </div>

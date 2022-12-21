@@ -13,6 +13,7 @@ const Share = () => {
   const [file, setFile] = useState(null)
   const [desc, setDesc] = useState('')
   const { currentUser } = useContext(AuthContext)
+  const [isLoading, setIsLoading] = useState(false)
 
   const queryClient = useQueryClient()
 
@@ -29,6 +30,7 @@ const Share = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setIsLoading(true)
 
     const imgUrl = await uploadFile(file)
 
@@ -36,6 +38,7 @@ const Share = () => {
 
     setDesc('')
     setFile(null)
+    setIsLoading(false)
   }
   
   return (
@@ -84,7 +87,7 @@ const Share = () => {
               </div>
             </div>
             <div className="right">
-              <button>Share</button>
+              <button disabled={isLoading}>{!isLoading ? 'Share' : 'Sharing...'}</button>
             </div>
           </div>
         </form>

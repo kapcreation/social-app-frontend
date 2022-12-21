@@ -35,8 +35,6 @@ const Profile = () => {
     })
   ))
 
-  console.log(relationship)
-
   const userIsCurrentUser = currentUser.id !== user?.id
 
   const userIsFollowed = relationship?.includes(currentUser.id)

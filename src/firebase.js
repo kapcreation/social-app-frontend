@@ -19,7 +19,7 @@ export const storage = getStorage(app);
 // 'file' comes from the Blob or File API
 export const uploadFile = async (file) => {
   const id = uuidV4()
-  const storageRef = ref(storage, `posts/${id}/${file.name}`);
+  const storageRef = ref(storage, `${id}/${file.name}`);
 
   const snapshot = await uploadBytes(storageRef, file);
 

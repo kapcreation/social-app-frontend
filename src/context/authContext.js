@@ -44,12 +44,22 @@ export const AuthContextProvider = ({ children }) => {
     setCurrentUser(null)
   }
 
+  const update = async (updateData) => {
+    try {
+      await makeRequest.put('/users', updateData)
+
+      setCurrentUser(prev=>({ ...prev, ...updateData }))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   useEffect(() => {
     localStorage.setItem('user', JSON.stringify(currentUser))
   }, [currentUser])
 
   return (
-    <AuthContext.Provider value={{ currentUser, login, register, logout }}>
+    <AuthContext.Provider value={{ currentUser, login, register, logout, update }}>
       {children}
     </AuthContext.Provider>
   )
