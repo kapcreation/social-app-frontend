@@ -5,7 +5,8 @@ import { AuthContext } from '../../context/authContext'
 import './Login.scss'
 
 const Login = () => {
-  const { currentUser, login } = useContext(AuthContext)
+  const { login } = useContext(AuthContext)
+  const [isLoading, setIsLoading] = useState(false)
  
   const [inputs, setInputs] = useState({
     username: '',
@@ -19,9 +20,12 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    setError(null)
+    setIsLoading(true)
     
     login(inputs, (err, data) => {
       if (err) setError(err)
+      setIsLoading(false)
     })
   }
 
@@ -44,7 +48,7 @@ const Login = () => {
             <input type="text" placeholder='Username' name='username' onChange={handleChange} required />
             <input type="password" placeholder='Password' name='password' onChange={handleChange} required />
             {error && <p>{error}</p>}
-            <button>Login</button>
+            <button disabled={isLoading}>{!isLoading ? 'Log In' : 'Loading...'}</button>
           </form>
         </div>
       </div>

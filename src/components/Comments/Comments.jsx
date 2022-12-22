@@ -4,22 +4,26 @@ import { AuthContext } from '../../context/authContext'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import moment from 'moment'
 import { makeRequest } from '../../axios'
+import avatar from '../../assets/avatarRounded.png'
 
 const Comments = ({ postId, comments }) => {
- 
   const { currentUser } = useContext(AuthContext)
-
   const queryClient = useQueryClient()
-
   const [comment, setComment] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
 
   const mutation = useMutation(
     (newComment) => {
+      setIsLoading(true)
+
       return makeRequest.post('/comments', newComment)
     },
     {
       onSuccess: () => {
         queryClient.invalidateQueries(['comments', postId])
+
+        setComment('')
+        setIsLoading(false)
       }
     }
   )
@@ -28,14 +32,12 @@ const Comments = ({ postId, comments }) => {
     e.preventDefault()
 
     mutation.mutate({ comment, postId })
-
-    setComment('')
   }
 
   return (
     <div className='comments'>
       <div className="input-box">
-        <img src={currentUser.profilePic} alt="" />
+        <img src={currentUser.profilePic || avatar} alt="" />
         <form onSubmit={handleSubmit}>
           <input 
             type="text" 
@@ -43,12 +45,12 @@ const Comments = ({ postId, comments }) => {
             onChange={(e)=>setComment(e.target.value)} 
             value={comment}
           />
-          <button>Send</button>
+          <button disabled={isLoading}>{!isLoading ? 'Send' : 'Sending...'}</button>
         </form>
       </div>
       {comments.map((comment) => (
         <div className="comment" key={comment.id}>
-          <img src={comment.profilePic} alt="" />
+          <img src={comment.profilePic || avatar} alt="" />
           <div className="text">
             <span>{comment.name}</span>
             <p>{comment.comment}</p>

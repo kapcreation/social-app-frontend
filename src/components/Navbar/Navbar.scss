@@ -59,16 +59,23 @@
       font-weight: bold;
       position: relative;
 
-      img {
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        object-fit: cover;
-      }
-      span {
-        
-        @media screen and (max-width: 960px) {
-          display: none;
+      a {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+
+        img {
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+          object-fit: cover;
+        }
+        span {
+          color: var(--text-color);
+          
+          @media screen and (max-width: 960px) {
+            display: none;
+          }
         }
       }
       .menu {

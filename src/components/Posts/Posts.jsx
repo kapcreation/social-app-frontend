@@ -7,7 +7,7 @@ import { makeRequest } from '../../axios'
 const Posts = ({ userId }) => {
 
   const { isLoading, error, data } = useQuery(['posts'], () => {
-    if(!userId) return makeRequest.get('/posts?context=feed').then((res) => res.data)
+    if (!userId) return makeRequest.get('/posts?context=feed').then((res) => res.data)
     return makeRequest.get(`/posts?context=profile&userId=${userId}`).then((res) => res.data)
   })
 

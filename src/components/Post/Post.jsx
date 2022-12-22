@@ -32,8 +32,17 @@ const Post = ({ post, focus, setFocus }) => {
     })
   ))
 
-  const isLiked = likesData?.includes(currentUser.id)
+  const [isLiked, setIsLiked] = useState(false)
+  const [likeCount, setLikeCount] = useState(0)
   const isOwner = post.userId === currentUser.id
+
+  useEffect(() => {
+    if (likesData) {
+      setIsLiked(likesData.includes(currentUser.id))
+      setLikeCount(likesData.length)
+    }
+  }, [likesData])
+  
   
   const queryClient = useQueryClient()
 
@@ -61,7 +70,9 @@ const Post = ({ post, focus, setFocus }) => {
   )
 
   const handleLike = () => {
-   likesMutation.mutate()
+    setIsLiked(prev=>!prev)
+    setLikeCount(prev=>prev + (isLiked ? -1 : 1))
+    likesMutation.mutate()
   }
 
   const openComments = () => {
@@ -102,7 +113,7 @@ const Post = ({ post, focus, setFocus }) => {
       <div className="footer">
         {!likesIsLoading && <button className="btn" onClick={handleLike}>
           {isLiked ? <FavoriteOutlinedIcon  /> : <FavoriteBorderOutlinedIcon />}
-          {likesData.length} Likes
+          {likeCount} Likes
         </button>}
         {!commentsIsLoading && <button className="btn" onClick={openComments}>
           <TextsmsOutlinedIcon />

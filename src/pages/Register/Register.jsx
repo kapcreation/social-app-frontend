@@ -4,7 +4,8 @@ import './Register.scss'
 import { AuthContext } from '../../context/authContext'
 
 const Register = () => {
-  const { currentUser, register } = useContext(AuthContext)
+  const { register } = useContext(AuthContext)
+  const [isLoading, setIsLoading] = useState(false)
 
   const [inputs, setInputs] = useState({
     username: '',
@@ -21,9 +22,12 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setError(null)
+    setIsLoading(true)
 
     register(inputs, (err, data) => {
       if (err) setError(err)
+      setIsLoading(false)
     })
   }
 
@@ -37,7 +41,7 @@ const Register = () => {
           </p>
           <span>Do you have an account?</span>
           <Link to='/login'>
-            <button>Login</button>
+            <button>Log In</button>
           </Link>
         </div>
         <div className='register-section'>
@@ -48,7 +52,7 @@ const Register = () => {
             <input type="password" placeholder='Password' name='password' onChange={handleChange} required />
             <input type="text" placeholder='Name' name='name' onChange={handleChange} required />
             {error && <p>{error}</p>}
-            <button>Register</button>
+            <button disabled={isLoading}>{!isLoading ? 'Register' : 'Loading...'}</button>
           </form>
         </div>
       </div>

@@ -32,7 +32,7 @@ const Share = () => {
     e.preventDefault()
     setIsLoading(true)
 
-    const imgUrl = await uploadFile(file)
+    const imgUrl = file ? await uploadFile(file) : null
 
     mutation.mutate({ desc, imgUrl })
 

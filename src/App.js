@@ -11,6 +11,7 @@ import Profile from './pages/Profile/Profile'
 import { DarkModeContext } from './context/darkModeContext';
 import { AuthContext } from './context/authContext';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import Modal from './components/Modal/Modal';
 
 function App() {
   const queryClient = new QueryClient()
@@ -68,6 +69,7 @@ function App() {
   return (
     <div className={`app ${darkMode ? 'dark-theme' : 'light-theme'}`}>
       <RouterProvider router={router} />
+      <Modal />
     </div>
   );
 }
