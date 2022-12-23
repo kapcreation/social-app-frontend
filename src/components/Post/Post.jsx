@@ -41,7 +41,7 @@ const Post = ({ post, focus, setFocus }) => {
       setIsLiked(likesData.includes(currentUser.id))
       setLikeCount(likesData.length)
     }
-  }, [likesData])
+  }, [])
   
   
   const queryClient = useQueryClient()
