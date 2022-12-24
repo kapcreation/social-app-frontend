@@ -31,6 +31,8 @@ const Comments = ({ postId, comments }) => {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
+    if (comment === '') return
+    
     mutation.mutate({ comment, postId })
   }
 

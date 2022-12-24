@@ -30,6 +30,9 @@ const Share = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+
+    if (desc === '' && file === null) return
+
     setIsLoading(true)
 
     const imgUrl = file ? await uploadFile(file) : null

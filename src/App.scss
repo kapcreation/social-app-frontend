@@ -3,6 +3,7 @@
   margin: auto;
   max-height: 100vh;
   overflow: hidden;
+  background-color: var(--bg-color-soft);
 
   --confirm-color: #5271ff;
   --cancel-color: #f0544f;
@@ -22,7 +23,7 @@
 .light-theme {
   --text-color: #000;
   --bg-color: white;
-  --logo-color: darkblue;
+  --logo-color: #5271ff;
   --bg-color-soft: #f6f3f3;
   --text-color-soft: #555;
   --border-color: lightgray;
@@ -41,4 +42,11 @@
 svg {
   cursor: pointer;
   color: var(--text-color);
+}
+
+.preloader {
+  margin-top: 2rem;
+  height: 50px;
+  width: 100%;
+  object-fit: contain;
 }

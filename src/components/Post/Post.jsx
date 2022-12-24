@@ -19,6 +19,11 @@ const Post = ({ post, focus, setFocus }) => {
   const { currentUser } = useContext(AuthContext)
   const [commentsIsOpen, setCommentsIsOpen] = useState(false)
   const [menuIsOpen, setMenuIsOpen] = useState(false)
+  const [isLiking, setIsLiking] = useState(false)
+  const [isLiked, setIsLiked] = useState(false)
+  const [likeCount, setLikeCount] = useState(0)
+  const isOwner = post.userId === currentUser.id
+  const [isDeleting, setIsDeleting] = useState(false)
 
   const { isLoading: likesIsLoading, error: likesError, data: likesData } = useQuery(['likes', post.id], () => (
     makeRequest.get('/likes?postId=' + post.id).then((res) => {
@@ -32,28 +37,24 @@ const Post = ({ post, focus, setFocus }) => {
     })
   ))
 
-  const [isLiked, setIsLiked] = useState(false)
-  const [likeCount, setLikeCount] = useState(0)
-  const isOwner = post.userId === currentUser.id
-
   useEffect(() => {
     if (likesData) {
       setIsLiked(likesData.includes(currentUser.id))
       setLikeCount(likesData.length)
     }
-  }, [])
+  }, [likesData])
   
   
   const queryClient = useQueryClient()
 
   const likesMutation = useMutation(
     () => {
-      if(!isLiked) return makeRequest.post('/likes', { postId: post.id })
-      return makeRequest.delete('/likes?postId=' + post.id)
+      return makeRequest.post('/likes', { postId: post.id })
     },
     {
       onSuccess: () => {
         queryClient.invalidateQueries(['likes', post.id])
+        setIsLiking(false)
       }
     }
   )
@@ -70,9 +71,11 @@ const Post = ({ post, focus, setFocus }) => {
   )
 
   const handleLike = () => {
+    if (isLiking) return
+    setIsLiking(true)
     setIsLiked(prev=>!prev)
-    setLikeCount(prev=>prev + (isLiked ? -1 : 1))
-    likesMutation.mutate()
+    setLikeCount(prev=> prev + (isLiked ? -1 : 1))
+    likesMutation.mutate()  
   }
 
   const openComments = () => {
@@ -85,8 +88,12 @@ const Post = ({ post, focus, setFocus }) => {
   }
 
   const handleDelete = () => {
+    if (isDeleting) return
+    setIsDeleting(true)
+
     postsMutation.mutate()
-    deleteUploadedFile(post.img)
+    
+    if (post.img) deleteUploadedFile(post.img)
   }
 
   useEffect(() => {
@@ -104,7 +111,7 @@ const Post = ({ post, focus, setFocus }) => {
           <span className="date">{moment(post.createdAt).fromNow()}</span>
         </Link>
         {isOwner && <MoreHorizIcon className='btn' onClick={toggleMenu} />}
-        {menuIsOpen && <div className='menu'><button onClick={handleDelete}>Delete</button></div>}
+        {menuIsOpen && <div className='menu'><button onClick={handleDelete}>{!isDeleting ? 'Delete' : 'Deleting...'}</button></div>}
       </div>
       <div className="body">
         <p>{post.desc}</p>

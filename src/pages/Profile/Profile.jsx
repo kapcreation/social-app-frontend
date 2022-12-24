@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import './Profile.scss'
 import FacebookTwoToneIcon from "@mui/icons-material/FacebookTwoTone";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
@@ -17,16 +17,21 @@ import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query'
 import { makeRequest } from '../../axios';
 import { AuthContext } from '../../context/authContext';
 import Update from '../../components/Update/Update';
+import preloader from '../../assets/preloader.gif'
 
 const Profile = () => {
   const { currentUser } = useContext(AuthContext)
   const { userId } = useParams();
   const [updateIsOpen, setUpdateIsOpen] = useState(false)
 
-  const { isLoading, error, data: user } = useQuery(['user'], () => (
+  const { isLoading: userIsLoading, error: userError, data: userData } = useQuery(['user'], () => (
     makeRequest.get('/users/' + userId).then((res) => {
       return res.data
     })
+  ))
+
+  const { isLoading: postsIsLoading, error: postsError, data: postsData } = useQuery(['posts'], () => (
+    makeRequest.get(`/posts?context=profile&userId=${userId}`).then((res) => res.data)
   ))
   
   const { isLoading: relationshipIsLoading, error: relationshipError, data: relationship } = useQuery(['relationship'], () => (
@@ -35,7 +40,7 @@ const Profile = () => {
     })
   ))
 
-  const userIsCurrentUser = currentUser.id !== user?.id
+  const userIsCurrentUser = currentUser.id !== userData?.id
 
   const userIsFollowed = relationship?.includes(currentUser.id)
   
@@ -43,8 +48,8 @@ const Profile = () => {
 
   const mutation = useMutation(
     () => {
-      if(!userIsFollowed) return makeRequest.post('/relationships', { userId: user.id })
-      return makeRequest.delete('/relationships?userId=' + user.id)
+      if(!userIsFollowed) return makeRequest.post('/relationships', { userId: userData.id })
+      return makeRequest.delete('/relationships?userId=' + userData.id)
     },
     {
       onSuccess: () => {
@@ -54,19 +59,19 @@ const Profile = () => {
   )
 
   const handleFollow = () => {
-    if(user?.id) mutation.mutate()
+    if(userData?.id) mutation.mutate()
   }
 
-  if (isLoading) return 'Loading...'
+  if (userIsLoading) return <img src={preloader} className='preloader' />
 
   return (
     <div className='profile'>
       <div className="banner">
-        <img src={user.coverPic || cover} className="cover" />
+        <img src={userData.coverPic || cover} className="cover" />
       </div>
       <div className="container">
         <div className="information">
-          <img src={user.profilePic || avatar} className="profile-pic" />
+          <img src={userData.profilePic || avatar} className="profile-pic" />
           <div className="left">
             <FacebookTwoToneIcon />
             <LinkedInIcon />
@@ -75,15 +80,15 @@ const Profile = () => {
             <TwitterIcon />
           </div>
           <div className="center">
-            <h1>{user.name}</h1>
+            <h1>{userData.name}</h1>
             <div className="links">
               <Link to='/'>
                 <PlaceIcon />
-                {user.city || 'No info'}
+                {userData.city || 'No info'}
               </Link>
               <Link to='/'>
                 <LanguageIcon />
-                {user.website || 'No info'}
+                {userData.website || 'No info'}
               </Link>
             </div>
             {userIsCurrentUser ? <button onClick={handleFollow}>{!userIsFollowed ? 'Follow' : 'Following'}</button> : <button onClick={()=>setUpdateIsOpen(true)}>Update</button>}
@@ -94,7 +99,7 @@ const Profile = () => {
           </div>
         </div>
 
-        <Posts userId={userId} />
+        {!postsIsLoading ? <Posts data={postsData} /> : <img src={preloader} className='preloader' />}
       </div>
 
       {updateIsOpen && <Update onClose={()=>setUpdateIsOpen(false)} />}
